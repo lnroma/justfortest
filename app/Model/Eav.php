@@ -13,9 +13,9 @@ use App\Model\User\Attribute;
 trait Eav
 {
 
-    private $data = null;
+    private $data = [];
 
-    private $dataAttribute = null;
+    private $dataAttribute = [];
     private $dataFilters = [];
 
     /**
