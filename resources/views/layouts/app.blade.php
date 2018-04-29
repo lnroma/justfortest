@@ -78,7 +78,7 @@ $route = Route::current()->getName();
     </div>
 </header>
 <div class="container">
-    @if(!\Illuminate\Support\Facades\Auth::user()->getAvatar())
+    @if(!Auth::guest() && !Auth::user()->getAvatar())
         <div class="alert alert-info">
             У вас не загружен аватар, загрузите его что бы привлечь внимание.
             <a href="/profile">Загрузиить!</a>
