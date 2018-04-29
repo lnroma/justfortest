@@ -78,6 +78,17 @@ $route = Route::current()->getName();
     </div>
 </header>
 <div class="container">
+    @if(!\Illuminate\Support\Facades\Auth::user()->getAvatar())
+        <div class="alert alert-info">
+            У вас не загружен аватар, загрузите его что бы привлечь внимание.
+            <a href="/profile">Загрузиить!</a>
+        </div>
+        @endif
+    @if($messages_count)
+        <div class="alert alert-success">
+            У вас есть новое сообщение <a href="/messages/list">прочитать.</a>
+        </div>
+        @endif
     @if(session('error'))
         <div class="alert alert-danger" role="alert">
             {{session('error')}}

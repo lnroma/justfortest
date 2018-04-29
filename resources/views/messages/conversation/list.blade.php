@@ -19,7 +19,12 @@
                     @if(!$_conversation->getLastMessage())
                         @continue
                     @endif
-                    <div class="opoveshenia-item">
+                    <div class="opoveshenia-item"
+                        @if($_conversation->getLastMessage()->user_from != Auth::user()->id
+                        && !$_conversation->getLastMessage()->is_read)
+                            style="background-color:#c8eac8;"
+                            @endif
+                    >
                         <div>
                             @include('chunks.avatar',['user' => $_conversation->getInterlocutor(), 'height' => 100])
                         </div>

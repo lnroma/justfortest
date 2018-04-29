@@ -26,8 +26,22 @@
                 @foreach ($users as $_user)
                     <div class="contacts-item">
                         <div class="contacts-item__collumn contacts-item__collumn1">
-                            @include('chunks.avatar',['user' => $_user, 'height' => 200])
-                            <a href="/messages/{{$_user->id}}" class="btn btn-success">Написать</a><br/>
+                            <div class="row">
+                                @if($_user->getSex() == 'male')
+                                    Был на сайте {{$_user->updated_at}}
+                                @else
+                                    Была на сайте {{$_user->updated_at}}
+                                @endif
+                            </div>
+                            <div class="row">
+                                На сайте с: {{ $_user->created_at }}
+                            </div>
+                            <div class="row">
+                                @include('chunks.avatar',['user' => $_user, 'height' => 200])
+                            </div>
+                            <div class="row">
+                                <a href="/messages/{{$_user->id}}" class="btn btn-success">Написать</a><br/>
+                            </div>
                         </div>
                         <div class="contacts-item__collumn contacts-item__collumn2">
                             <h2><a href="/profile/{{$_user->id}}">{{$_user->name}}</a></h2>
