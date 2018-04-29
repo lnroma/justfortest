@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru" class="js cssanimations csstransitions"><head>
+    <meta charset="utf-8">    
+	<title>«Pisec» — рядом с вами жаждут знакомства!</title>    
+	<meta name="description" content="">
+	<meta name="keywords" content="">  
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body class="body-index">
+	<header>
+		<div class="header-container">
+			<div class="header-logo">
+				<a href=""><img class="header-logo__img" src="images/logo.png" alt="Logo"></a>
+			</div>
+			<div class="menu-container">
+				<ul class="menu">
+					<li class="menu-item"><span class="li_bg li_bg1"></span><img src="images/li1.png" alt="menu_img"></li>
+					<li class="menu-item"><span class="li_bg li_bg2"></span><img src="images/li2.png" alt="menu_img"></li>
+					<li class="menu-item"><span class="li_bg li_bg3"></span><img src="images/li3.png" alt="menu_img"></li>
+					<li class="menu-item"><span class="li_bg li_bg4"></span><img src="images/li4.png" alt="menu_img"><div class="menu-item__messages">1</div></li>
+					<li class="menu-item"><span class="li_bg li_bg5 selected"></span><img src="images/li5.png" alt="menu_img"></li>
+					<li class="menu-item"><img src="images/li6.png" alt="menu_img"></li>
+				</ul>
+			</div>
+			<ol class="breadcrumbs">
+				<li class="breadcrumbs-item"><a href="#">pisec</a></li>
+				<li class="breadcrumbs-item"><a href="#">сообщества</a></li>
+				<li class="breadcrumbs-item active">вместе веселее</li>
+			</ol>
+		</div>
+	</header>
+	<section class="profile">
+		<div class="profile-container">
+			
+			<div class="profile__collumn profile__collumn1">
+				<img src="images/pfoto.png" alt="фото">
+			</div>
+			<div class="profile__collumn profile__collumn2">
+			<img class="profile__settings" src="images/settings.png" alt="фото">
+				<h2>Наталья</h2>
+				<h2>Астрахань</h2>
+				<h2>24 лет</h2>
+				<textarea class="profile__textarea">Оставте информацию о себе (не больше 174 символа)</textarea>
+			</div>			
+		</div>
+	</section>
+	<section class="profile-photo">
+		<div class="profile-photo-container">
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+			<div class="profile-photo-item"><img src="images/photo-item.png" alt="фото"></div>
+		</div>
+	</section>
+	<footer>
+		<div class="footer-container">
+			<div class="footer-logo">
+				<a href=""><img class="footer-logo__img" src="images/logo.png" alt="Logo"></a>
+			</div>
+			<div class="footer-up">
+				<a href=""><img src="images/up.png" alt="Logo">наверх</a>
+			</div>
+		</div>
+	</footer>
+<!--	<div class="profile-modal">
+		<div class="profile-window">
+		<div class="profile-window-container">
+			<div class="profile-window__collumn profile-window__collumn1">
+				<div class="profile-window-photo">
+					<img src="images/photo-change.png" alt="фото">
+					<div class="profile-window-photo-txt">
+						<img src="images/camera-retro.png" alt="камера">
+						<p>сменить фото</p>
+					</div>
+					
+				</div>
+				<a href="" class="profile-window-save">Принять изменения</a>
+			</div>
+			<div class="profile-window__collumn profile-window__collumn2">
+				<input type="text" id="uname" name="name" placeholder="изменить имя">
+				<input type="text" id="uage" name="age" placeholder="изменить возраст">
+				<input id="town" type="text" placeholder="изменить населенный пункт">
+				<div class="showtown">
+					<div>
+						<ul class="showtown-list">
+							<li class="search-list">Москва</li>
+							<li class="search-list">Астрахань</li>
+							<li class="search-list">Красноярск</li>
+							<li class="search-list">Санкт-Петербург</li>
+							<li class="search-list">Калининград</li>
+						</ul>
+					</div>
+				</div>
+				<div class="profile-window-sex"><div class="choose-sex selected">Мужской</div><div class="choose-sex">Женский</div></div>
+				<textarea class="profile-window__textarea">изменить информацию о себе</textarea>
+			</div>			
+		</div>
+		</div>
+	</div>
+	-->
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+	$('.profile__settings').click(function() { 
+		$('.profile-modal').addClass('show-modal');
+	})	
+	$('.profile-window-save').click(function() { 
+		event.preventDefault();
+		$('.profile-modal').removeClass('show-modal');
+	})	
+	$('#town').click(function() {
+		$('#town').val('');
+		$(".search-list").each(function(){
+			$(this).css('display','block');
+        });
+		$('.showtown-list').slideToggle('300');
+	});	
+
+	$('#town').keyup(function(){
+	  var Value = $('#town').val();
+	  $(".search-list").each(function(){
+			var CompValue = $(this).text();
+			if (CompValue.toUpperCase().indexOf(Value.toUpperCase())) {$(this).css('display','none')}
+			else {$(this).css('display','block')};
+		});
+	})	
+	$('.search-list').click(function() { 
+		$('#town').val($(this).text());
+		$('.showtown-list').css('display','none');
+	})
+	$('.choose-sex').click(function() { 
+		$('.choose-sex').toggleClass('selected');
+	});
+})	
+	
+	
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Model\User\Attribute;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -62,10 +63,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        /** @var User $user */
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        // set birth day
+        $user->setBirthDay($data['birth_day'] . '-' . $data['birth_month'] . '-' . $data['birth_year']);
+
+        $userAttribute = Attribute::where('show_in_registration', 1)->get();
+        foreach ($userAttribute as $_userAttrib) {
+            $user->setData($_userAttrib->key, $data[$_userAttrib->key]);
+        }
+        $user->save();
+
+        return $user;
     }
 }

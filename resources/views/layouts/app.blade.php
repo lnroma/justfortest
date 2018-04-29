@@ -1,80 +1,114 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ config('app.locale') }}" class="js cssanimations csstransitions">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
+    {{--<title>{{ config('app.name', 'Laravel') }}</title>--}}
+    <title>{{ $h1 }}</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+<?php
+$route = Route::current()->getName();
+?>
+<body class="body-index">
+<header>
+    <div class="header-container">
+        <div class="header-logo">
+            <a href="/"><img class="header-logo__img" src="/images/logo.png" alt="Logo"></a>
+        </div>
+        <div class="menu-container">
+            <ul class="menu">
+                <?php /**  ?> <li class="menu-item"><span class="li_bg li_bg1 <?php if ($route == 'events') echo 'selected' ?>"></span>
+                <a href="/events/">
+                <img src="/images/li1.png" alt="menu_img">
+                </a>
+                <?php if($events): ?>
+                <div class="menu-item__messages"><?php echo $events ?></div>
+                <?php endif; ?>
+                </li>
+                 * */ ?>
+                {{--<li class="menu-item"><span class="li_bg li_bg2"></span>--}}
+                {{--<a href="/comunity/">--}}
+                {{--<img src="/images/li2.png" alt="menu_img">--}}
+                {{--</a>--}}
+                {{--</li>--}}
+                <li class="menu-item"><span class="li_bg li_bg3 <?php if ($route == 'home') echo 'selected' ?>"></span>
+                    <a href="/home">
+                        <img src="/images/li3.png" alt="menu_img">
                     </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        @yield('content')
+                </li>
+                <li class="menu-item"><span
+                            class="li_bg li_bg4 <?php if ($route == 'conversations_list') echo 'selected' ?>"></span>
+                    <a href="/messages/list">
+                        <img src="/images/li4.png" alt="menu_img">
+                    </a>
+                    <?php if($messages_count): ?>
+                    <div class="menu-item__messages"><?php echo $messages_count ?></div>
+                    <?php endif; ?>
+                </li>
+                <li class="menu-item"><span
+                            class="li_bg li_bg5 <?php if ($route == 'profile') echo 'selected' ?>"></span>
+                    <a href="/profile">
+                        <img src="/images/li5.png" alt="menu_img">
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+</header>
+<div class="container">
+    @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{session('error')}}
+        </div>
+    @endif
+    @if(session('message'))
+        <div class="alert alert-success" role="alert">
+            {{session('message')}}
+        </div>
+    @endif
+    @yield('content')
+</div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+<footer>
+    <div class="footer-container">
+        <div class="footer-logo">
+            <a href=""><img class="footer-logo__img" src="/images/logo.png" alt="Logo"></a>
+        </div>
+        <div class="footer-up">
+            <a href=""><img src="/images/up.png" alt="Logo">наверх</a>
+        </div>
+    </div>
+    <a href="{{ url('/logout') }}"
+       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+        Выход
+    </a>
+
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
+</footer>
 </body>
 </html>

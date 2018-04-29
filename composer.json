@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "dwij/laraadmin": "1.0.40",
+        "appzcoder/laravel-admin": "^2.0",
+        "codemash/laravel-socket": "^1.0",
+        "davejamesmiller/laravel-breadcrumbs": "4.*",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0"

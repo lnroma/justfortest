@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\User\Attribute;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +23,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $users = User::addFilterAttribute('sex', $request->get('sex'))
+        ->addFilterAttribute('city', $request->get('city'))
+        ->paginate(10);
+
+        $filters = Attribute::where('show_in_filters', '=', 1)->get();
+        return view('home')
+            ->with('filters', $filters)
+            ->with('users', $users);
     }
+    
 }
