@@ -77,7 +77,7 @@ trait Eav
      */
     public function getData($key = null)
     {
-        if ($this->data === null) {
+        if (!$this->data) {
             $this->_loadDataValues();
         }
 
@@ -208,7 +208,7 @@ trait Eav
      */
     public function getDataAttribute()
     {
-        if ($this->dataAttribute === null) {
+        if (!$this->dataAttribute) {
             $this->_loadDataAttributesKeys();
         }
         return $this->dataAttribute;

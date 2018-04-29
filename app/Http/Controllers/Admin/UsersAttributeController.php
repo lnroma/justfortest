@@ -20,7 +20,9 @@ class UsersAttributeController extends Controller
      */
     public function index(Request $request)
     {
+        die('123');
         $attributes = Attribute::paginate(15);
+        dd($attributes);die;
         return view('admin/attribute/index')->with('attributes', $attributes);
     }
 

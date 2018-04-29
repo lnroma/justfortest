@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <?php var_dump($conversation->getInterlocutor());  ?>
     {{ Breadcrumbs::render('message', $conversation->getInterlocutor()) }}
     {{--<section class="container">--}}
                 <div id="messages">
@@ -10,7 +11,7 @@
                         @else
                             <?php
                             $messages = $conversation
-                                ->messages()
+                                ->messages(49336)
                                 ->paginate(15, ['*'], 'page', isset($_GET['page']) ? null : ceil($conversation->messages->count() / 15))
                                 ->setPath('/messages/' . $conversation->getInterlocutor($authUser)->id .
                                     (isset($_GET['page_conversation']) ? '?page_conversation=' . $_GET['page_conversation'] : '')
