@@ -28,10 +28,33 @@
                                 @endif
                                         ">
                                     <div class="blockquote">
-                                        <div>@if(!$_message ->is_read)
+                                        <div>
+                                            <small class="text-secondary">
+                                            @if(!$_message ->is_read)
                                                 <span class="glyphicon glyphicon-envelope"></span>
                                             @endif
+                                            @if($_message->user_from == $authUser->id)
+                                                {{$authUser->getName()}}
+                                                @if($authUser->isOnline())
+                                                    Сейчас на сайте
+                                                    @else
+                                                    Отошел
+                                                    @endif
+                                            @else
+                                                {{$conversation->getInterlocutor($authUser)->getName()}}
+                                                @if($conversation->getInterlocutor($authUser)->isOnline())
+                                                    Сейчас на сайте
+                                                @else
+                                                    Отошел
+                                                @endif
+                                            @endif
+                                            </small>
+                                            <hr/>
                                             {{$_message->message}}
+                                            <hr/>
+                                            <small class="text-secondary">
+                                            {{$_message->created_at}}
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
