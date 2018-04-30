@@ -35,13 +35,14 @@
                         Пользователь пока ничего не написал
                     @endif
                 </div>
+                <a href="/messages/{{$profile->id}}" class="btn btn-success btn-lg"><span
+                            class="glyphicon glyphicon-envelope"></span> Написать сообщение</a><br/>
+
             </div>
         </div>
         <div class="row pull-right center-block">
             <div class="col">
-                <a href="/messages/{{$profile->id}}" class="btn btn-success"><span
-                            class="glyphicon glyphicon-envelope"></span> Написать</a><br/>
-            </div>
+                 </div>
         </div>
         <div class="h3 center-block">Фотоальбом</div>
         <div class="col">

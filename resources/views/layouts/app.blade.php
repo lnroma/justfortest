@@ -84,11 +84,6 @@ $route = Route::current()->getName();
             <a href="/profile">Загрузиить!</a>
         </div>
         @endif
-    @if($messages_count)
-        <div class="alert alert-success">
-            У вас есть новое сообщение <a href="/messages/list">прочитать.</a>
-        </div>
-        @endif
     @if(session('error'))
         <div class="alert alert-danger" role="alert">
             {{session('error')}}

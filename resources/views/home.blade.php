@@ -2,60 +2,37 @@
 
 @section('content')
     {{ Breadcrumbs::render('home') }}
-    <div class="alert-info alert" role="alert">
-        Выберите в поиске пол и город в котором хотели бы найти знакомства,
-        далее посмотрите на подходящего человека, и напишите ему
+    <div class="alert alert-warning padding-top">
+        <form method="get" class="form-inline center-block" action="{{ route('home') }}">
+            @include('search.search_form')
+        </form>
     </div>
-    <section class="search">
-        <div class="search-container">
-            <form method="get" class="form-inline center-block" action="{{ route('home') }}">
-                @include('search.search_form')
-            </form>
-        </div>
-    </section>
     <section class="search"></section>
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
-    <section class="contacts">
-        <div class="contacts-container">
-            <h1>Результаты поиска</h1>
-            <div class="contacts-list">
-                @foreach ($users as $_user)
-                    <div class="contacts-item">
-                        <div class="contacts-item__collumn contacts-item__collumn1">
-                            <div class="row">
-                                @include('chunks.avatar',['user' => $_user, 'height' => 200])
-                            </div>
-                            <div class="row">
-                                <a href="/messages/{{$_user->id}}" class="btn btn-success">Написать</a><br/>
-                            </div>
-                        </div>
-                        <div class="contacts-item__collumn contacts-item__collumn2">
-                            <h2><a href="/profile/{{$_user->id}}">{{$_user->name}}</a></h2>
-                            <?php if ($_user->getOld()): ?>
-                            <h2>{{$_user->getOld()}} лет</h2>
-                            <?php else: ?>
-                            <h2>Возраст не известен</h2>
-                            <?php endif;?>
-                            <?php if($_user->getCity()): ?>
-                            <h2>{{ $_user->getCity() }}</h2>
-                            <?php else:?>
-                            <h2>Город не указан</h2>
-                            <?php endif;?>
-                            <?php if($_user->getHello()): ?>
-                            <p>{{ $_user->getHello() }}</p>
-                            <?php else: ?>
-                            <p>Пользователь пока не придумал приветствее</p>
-                            <?php endif; ?>
-                        </div>
+    <h1>Результаты поиска</h1>
+    <div class="row">
+        @foreach ($users as $_user)
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail " style="min-height: 600px">
+                    @include('chunks.avatar',['user' => $_user, 'height' => 350])
+                    <div class="caption">
+                        <h3>{{$_user->name}}</h3>
+                        <p> {{$_user->getCity()}}</p>
+                        <p>{{$_user->getOld()}} Лет</p>
+                        <p>
+                            @include('chunks.user_online',['user' => $_user])
+                        </p>
+                        <p><a href="/messages/{{$_user->id}}" class="btn btn-success" role="button">Написать</a>
+                            <a href="/profile/{{$_user->id}}" class="btn btn-default" role="button">Продробнее</a></p>
                     </div>
-                @endforeach
+                </div>
             </div>
-            {{$users->render()}}
-        </div>
-    </section>
+        @endforeach
+    </div>
+    {{$users->render()}}
 
 @endsection

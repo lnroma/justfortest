@@ -9,7 +9,7 @@
     @endif
 @endforeach
 <div class="form-group">
-    <button type="submit" class="btn btn-success btn-lg">Наити знакомства
+    <button type="submit" class="btn btn-success btn-sm">Наити знакомства
         <img height="25px" src="/images/search.png" alt="search">
     </button>
 </div>

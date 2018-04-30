@@ -29,7 +29,7 @@ class HomeController extends Controller
         $users = User::addFilterAttribute('sex', $request->get('sex'))
         ->addFilterAttribute('city', $request->get('city'))
             ->orderBy('updated_at', 'desc')
-        ->paginate(10);
+        ->paginate(9);
 
         $filters = Attribute::where('show_in_filters', '=', 1)->get();
         return view('home')

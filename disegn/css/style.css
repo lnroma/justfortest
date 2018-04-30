@@ -642,7 +642,7 @@ footer {
 	flex-direction: column;
 }
 .messages-input {
-	width: 980px;
+	/*width: 980px;*/
 	height: 100px;
     box-sizing: border-box;
 	margin: 0 auto;
