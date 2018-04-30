@@ -22,11 +22,12 @@
                     <span id="name"> {{ $profile->getName() }} </span>
                 </h2>
                 <h2>
-                    {{--                    {{ $profile->getCity() }}--}}
+                    {{ $profile->getCity() }}
                 </h2>
                 <h2>
                     <?php echo $profile->getOld() ?> Лет
                 </h2>
+                <h3>На сайте с: {{ $profile->created_at }}</h3>
                 <div class="profile__textarea">
                     @if($profile->getHello())
                         {{$profile->getHello()}}

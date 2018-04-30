@@ -7,6 +7,15 @@
  */
 ?>
 
+@if ($user->isOnline())
+    Сейчас на сайте
+@else
+    @if($user->getSex() == 'male')
+        Был на сайте: {{$user->updated_at}}
+    @else
+        Был на сайте: {{$user->updated_at}}
+    @endif
+@endif
 @if($user->getAvatar())
     <img
             @if(isset($class))

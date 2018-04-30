@@ -8,7 +8,7 @@
     </div>
     <section class="search">
         <div class="search-container">
-            <form  method="get" class="form-inline center-block" action="{{ route('home') }}">
+            <form method="get" class="form-inline center-block" action="{{ route('home') }}">
                 @include('search.search_form')
             </form>
         </div>
@@ -27,16 +27,6 @@
                     <div class="contacts-item">
                         <div class="contacts-item__collumn contacts-item__collumn1">
                             <div class="row">
-                                @if($_user->getSex() == 'male')
-                                    Был на сайте {{$_user->updated_at}}
-                                @else
-                                    Была на сайте {{$_user->updated_at}}
-                                @endif
-                            </div>
-                            <div class="row">
-                                На сайте с: {{ $_user->created_at }}
-                            </div>
-                            <div class="row">
                                 @include('chunks.avatar',['user' => $_user, 'height' => 200])
                             </div>
                             <div class="row">
@@ -52,8 +42,8 @@
                             <?php endif;?>
                             <?php if($_user->getCity()): ?>
                             <h2>{{ $_user->getCity() }}</h2>
-                                <?php else:?>
-                                <h2>Город не указан</h2>
+                            <?php else:?>
+                            <h2>Город не указан</h2>
                             <?php endif;?>
                             <?php if($_user->getHello()): ?>
                             <p>{{ $_user->getHello() }}</p>

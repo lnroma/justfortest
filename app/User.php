@@ -176,4 +176,19 @@ class User extends Authenticatable
         return $query;
     }
 
+    /**
+     * is online user
+     * @return bool
+     */
+    public function isOnline()
+    {
+        $dataUpdate = new Carbon($this->updated_at);
+        $diff = $dataUpdate->diffInMinutes(new Carbon());
+        if($diff > 5) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

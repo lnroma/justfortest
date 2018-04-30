@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\LogLastUserActivity;
 use App\Http\Middleware\SeoVariables;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -38,6 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             SeoVariables::class,
+            LogLastUserActivity::class,
         ],
 
         'api' => [

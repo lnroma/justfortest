@@ -19,8 +19,7 @@ class SeoVariables
     public function handle($request, Closure $next)
     {
 
-        View::share('h1', 'Это просто переменная');
-        // set counts badge
+        View::share('h1', 'Знакомства для серьезных отношений и секса обсалютно бесплатно!');
         $this->_badgeGenerator();
         return $next($request);
     }
@@ -38,7 +37,6 @@ class SeoVariables
 
         /** @var User $user */
         $user = Auth::user();
-//        var_dump($user->getUnreadMessages());die;
         View::share('events', $events);
         View::share('messages_count', $user->getUnreadMessages());
     }

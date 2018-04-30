@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php var_dump($conversation->getInterlocutor());  ?>
     {{ Breadcrumbs::render('message', $conversation->getInterlocutor()) }}
     {{--<section class="container">--}}
                 <div id="messages">

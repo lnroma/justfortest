@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class LogLastUserActivity
 {
@@ -15,6 +16,9 @@ class LogLastUserActivity
      */
     public function handle($request, Closure $next)
     {
+        if(!Auth::guest()) {
+            Auth::user()->touch();
+        }
         return $next($request);
     }
 }

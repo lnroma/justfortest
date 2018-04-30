@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\User\Attribute;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,7 @@ class HomeController extends Controller
     {
         $users = User::addFilterAttribute('sex', $request->get('sex'))
         ->addFilterAttribute('city', $request->get('city'))
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
         ->paginate(10);
 
         $filters = Attribute::where('show_in_filters', '=', 1)->get();
