@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Dwij\Laraadmin\LAProvider::class,
         Codemash\Socket\SocketServiceProvider::class,
+        \App\Providers\Validate::class,
     ],
 
     /*

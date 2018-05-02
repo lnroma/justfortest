@@ -1,5 +1,5 @@
 <div class="form-group{{ $errors->has('name') ? ' has-error' : ''}}">
-    {!! Form::label('name', 'Name: ', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('name', 'Имя или ник: ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
@@ -13,21 +13,21 @@
     </div>
 </div>
 <div class="form-group{{ $errors->has('password') ? ' has-error' : ''}}">
-    {!! Form::label('password', 'Password: ', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('password', 'Пароль: ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::password('password', ['class' => 'form-control', 'required' => 'required']) !!}
         {!! $errors->first('password', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : ''}}">
-    {!! Form::label('password_confirmation', 'Password confirm: ', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('password_confirmation', 'Повторите пароль: ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::password('password_confirmation', ['class' => 'form-control', 'required' => 'required']) !!}
         {!! $errors->first('password_confirmation', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 <div class="form-group{{ $errors->has('birth_year') ? ' has-error' : ''}}">
-    {!! Form::label('birth_year', 'Birth day: ', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('birth_year', 'День рождения: ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::select('birth_day', array_combine(range(1, 31),range(1, 31)), ['class' => 'form-control', 'required' => 'required']) !!}
         {!! Form::select('birth_month', array_combine(range(1, 12), range(1,12)), ['class' => 'form-control', 'required' => 'required']) !!}

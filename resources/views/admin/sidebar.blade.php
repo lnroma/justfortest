@@ -2,7 +2,7 @@
 
     @foreach($laravelAdminMenus->menus as $section)
         @if($section->items)
-            <div class="panel panel-default panel-flush">
+            <div class="panel panel-success panel-flush">
                 <div class="panel-heading">
                     {{ $section->section }}
                 </div>

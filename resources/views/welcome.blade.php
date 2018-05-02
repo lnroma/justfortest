@@ -41,7 +41,7 @@
             </h2>
         </div>
         <div class=" search-item col-md-4" style="padding-top: 10px;">
-            <div class="panel panel-default">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     Войти на сайт
                 </div>

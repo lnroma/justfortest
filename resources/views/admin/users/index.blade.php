@@ -6,7 +6,7 @@
             @include('admin.sidebar')
 
             <div class="col-md-9">
-                <div class="panel panel-default">
+                <div class="panel panel-success">
                     <div class="panel-heading">Users</div>
                     <div class="panel-body">
                         <a href="{{ url('/admin/users/create') }}" class="btn btn-success btn-sm" title="Add New User">
