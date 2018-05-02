@@ -16,6 +16,9 @@
                 <p>У вас пока нет сообщений, что бы найти собеседника воспользуйтесь  <a href="/home">поиском</a> </p>
             @else
                 @foreach($conversations as $_conversation)
+                    @if(!$_conversation->getInterlocutor())
+                        @continue
+                    @endif
                     @if(!$_conversation->getLastMessage())
                         @continue
                     @endif
