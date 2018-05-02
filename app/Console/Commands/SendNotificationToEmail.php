@@ -49,7 +49,7 @@ class SendNotificationToEmail extends Command
 
         foreach ($conversation as $_conv) {
             $user = User::find($_conv->user_to);
-            if(!$user->isOnline()) {
+            if($user && !$user->isOnline()) {
                 Mail::send('emails.unreadmessage', ['nick' => $user->name], function ($message) use ($user) {
                     $message->to($user->email, $user->name)->subject('Непрочитанное сообщение на сайте pisec.online');
                 });
