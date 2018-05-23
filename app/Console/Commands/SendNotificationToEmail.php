@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\NewMessage;
 use App\Model\User\Conversation;
 use App\User;
 use function foo\func;
 use Illuminate\Console\Command;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 
 class SendNotificationToEmail extends Command
@@ -50,9 +52,8 @@ class SendNotificationToEmail extends Command
         foreach ($conversation as $_conv) {
             $user = User::find($_conv->user_to);
             if($user && !$user->isOnline()) {
-                Mail::send('emails.unreadmessage', ['nick' => $user->name], function ($message) use ($user) {
-                    $message->to($user->email, $user->name)->subject('Непрочитанное сообщение на сайте pisec.online');
-                });
+                Mail::to('family_89@mail.ru')->send(new NewMessage($user));
+                break;
             }
         }
     }

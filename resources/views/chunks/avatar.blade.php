@@ -20,6 +20,7 @@
             @endif
             height="{{$height}}px"
             width="{{$height}}px"
+            style="width: {{$height}}"
             src="{{ $user->getAvatar()->cdn_key }}"
             alt="{{ $user->getAvatar()->name }}">
 @else

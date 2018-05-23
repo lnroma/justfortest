@@ -1,4 +1,3 @@
-
 var socket = window.appSocket;
 
 function sendMessageToUser(idElement) {
@@ -11,25 +10,33 @@ function checkCondition() {
 
 function checkMessage() {
     var conversationId = $('#conversation_id').val();
+
+    if(conversationId == undefined) {
+        return;
+    }
+
     socket.send(
         'updateMessageConversation',
         {
+            user_id:$('#user_id').valid(),
             conversation_id: conversationId
         }
     );
 }
 
-$('#send-message').on('click', function (event) {
-    event.preventDefault();
-    var msg = $('#message').val();
-    var conversationId = $('#conversation_id').val();
-
-    socket.send('sendMessageToUser', {
-        msg: msg,
-        conversation_id: conversationId
+$(document).ready(function () {
+    $('.js-send-message').on('click', function (event) {
+        event.preventDefault();
+        var msg = $('#message').val();
+        var user_id = $('#user_id').val();
+        var conversationId = $('#conversation_id').val();
+        socket.send('sendMessageToUser', {
+            msg: msg,
+            user_id: user_id,
+            conversation_id: conversationId
+        });
+        $('#message').val('');
     });
-
-    $('#message').val('');
 });
 
 setInterval(function run() {
@@ -40,8 +47,8 @@ setInterval(function run() {
 socket.on('newMessage', function (newMessage) {
     var data = JSON.parse(newMessage);
 
-    if(data.command == 'condition_information') {
-        $('.js-message-count').text(data.result);
+    if(data.command == 'get_condition') {
+        $('.js-message-count').text(data.unread_messages);
     }
 
     if(data.command == 'update_message') {

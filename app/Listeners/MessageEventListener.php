@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Model\User\Conversation;
 use App\Model\User\Conversation\Message;
 use App\User;
+use Codemash\Socket\Events\Event;
 use Codemash\Socket\Events\MessageReceived;
 use Codemash\Socket\Events\ClientConnected;
 use Codemash\Socket\Events\ClientDisconnected;
@@ -17,40 +18,76 @@ use Illuminate\Support\Facades\View;
 
 class MessageEventListener
 {
+    protected $users = [];
+    protected $clients = [];
+
+    protected function _pushUsersToConnected(Event $event)
+    {
+        foreach ($event->clients as $_client) {
+            if ($_client->authed()) {
+                $this->users[$_client->getUser()->id] = $_client->getUser();
+                $this->clients[$_client->getUser()->id] = $_client;
+            }
+        }
+        return $this->users;
+    }
+
+    public function __construct()
+    {
+        // send condition to users
+
+//        while (true) {
+//            foreach ($this->users as $userId => $user) {
+//                $this->_updateUserCondition($this->clients[$userId], $user);
+//                $this->_updateMessageConversation($this->clients[$userId], $user);
+//            }
+//        }
+    }
+
+    protected function _updateUserCondition($client, $user)
+    {
+        $result = [
+            'command' => 'get_condition',
+            'unread_messages' => $user->getUnreadMessages(),
+            'unread_events' => $user->getEvent
+        ];
+        $client->send('newMessage', json_encode($result));
+    }
+
+    protected function _removeUsersFromConnected(Event $event)
+    {
+        //@todo remove clients from array if disconnected
+    }
 
     public function onMessageReceived(MessageReceived $event)
     {
         $message = $event->message;
         // If the incomming command is 'sendMessageToOthers', forward the message to the others.
-        // get auth user
-        $user = null;
-        $authClient = null;
-        foreach ($event->clients as $_client) {
-            if ($_client->authed()) {
-                $user = $_client->getUser();
-                $authClient = $_client;
-            }
-        }
-
-        if ($message->command === 'getCondition') {
-            /** @var User $user */
-            $result = [
-                'command' => 'get_condition',
-                'unread_messages' => $user->getUnreadMessages(),
-                'unread_events' => $user->getEvent
-            ];
-
-            $authClient->send('newMessage', json_encode($result));
+        // get auth users
+        if ($message->command === 'getUserCondition') {
+            $messageData = (array)$message->data;
+            $user = User::find($messageData['user_id']);
+            $this->_updateUserCondition(
+                $this->clients[$messageData['user_id']],
+                $user
+            );
+        } elseif ($message->command == 'renderMyMessage') {
+            $messageData = (array)$message->data;
+            $user = User::find($messageData['user_id']);
+            $this->_updateMessageConversation(
+                $this->clients[$messageData['user_id']],
+                $user
+            );
         } elseif ($message->command === 'getMessage') {
             // todo message
         } elseif ($message->command === 'sendMessageToUser') {
             // send message to conversation
-            $this->_sendMessageToUser($authClient, $message, $user);
+            $this->_sendMessageToUser($message);
         } elseif ($message->command === 'checkUserMessage') {
 
         } elseif ($message->command === 'updateMessageConversation') {
             // check new message in conversation and update this conversation
-            $this->_updateMessageConversation($authClient, $message, $user);
+//              $this->_updateMessageConversation($authClients, $message, $users);
         }
 
         if ($message->command === 'sendMessageToOthers') {
@@ -59,7 +96,6 @@ class MessageEventListener
             $others = $event->allOtherClients();
             foreach ($others as $client) {
                 // The $message->data property holds the actual message
-//                var_dump($message->data);
                 $client->send('newMessage', $message->data);
             }
         }
@@ -67,27 +103,26 @@ class MessageEventListener
 
     public function onConnected(ClientConnected $event)
     {
-        // Not used in this example.
+        // если подконектился шлем
+        $this->_pushUsersToConnected($event);
     }
 
     public function onDisonnected(ClientDisconnected $event)
     {
-        // Not used in this example.
+        $this->_removeUsersFromConnected($event);
     }
 
     /**
+     * update message conversation if users lock this conversation
      *
-     * update message conversation if user lock this conversation
-     *
-     * @param $authClient
+     * @param $authClients
      * @param $message
-     * @param $user User
+     * @param $users User
      */
-    protected function _updateMessageConversation($authClient, $message, $user)
+    protected function _updateMessageConversation($authClient, $user)
     {
-        $messageData = (array)$message->data;
         /** @var Conversation $conversation */
-        $conversation = Conversation::find($messageData['conversation_id']);
+        $conversation = Conversation::getMyConversations($user);
 
         $isNeedUpdate = $conversation->getUnreadMessageCount($user) > 0;
 
@@ -107,30 +142,31 @@ class MessageEventListener
     }
 
     /**
-     * @param $authClient
+     * @param $authClients
      * @param $message
-     * @param $user User
+     * @param $users User
      */
-    protected function _checkUserMessage($authClient, $message, $user)
+    protected function _checkUserMessage($authClients, $message, $users)
     {
-        $getConversations = $user->getAllConversations();
+        $getConversations = $users->getAllConversations();
         /** @var Conversation $_conversation */
         foreach ($getConversations as $_conversation) {
             $_conversation->getUnreadMessageCount();
 //            $_conversation->getLastMessage();
 //            $_conversation->getLastMessage();
         }
-        $unreadMessages = $user->getUnreadMessages();
+        $unreadMessages = $users->getUnreadMessages();
     }
     /**
      * send message by socket
-     * @param $authClient
+     * @param $authClients
      * @param $message
-     * @param $user
+     * @param $users
      */
-    protected function _sendMessageToUser($authClient, $message, $user)
+    protected function _sendMessageToUser(\Codemash\Socket\Message $message)
     {
         $messageData = (array)$message->data;
+        $user = User::find($messageData['user_id']);
         $conversation = Conversation::find($messageData['conversation_id']);
         $message = new Message();
         $message->conversation_id = $conversation->id;
@@ -139,19 +175,6 @@ class MessageEventListener
         $message->message = $messageData['msg'];
         $message->is_read = 0;
         $message->save();
-
-        $htmlConversation = View::make('messages/conversation')
-            ->with('conversation', $conversation)
-            ->with('authUser', $user)
-            ->renderSections();
-
-        $result = [
-            'command' => 'update_message',
-            'need_update' => true,
-            'html' => $htmlConversation['message']
-        ];
-
-        $authClient->send('newMessage', json_encode($result));
     }
 
     /**
@@ -167,7 +190,7 @@ class MessageEventListener
         );
 
         $events->listen(
-            'Codemash\Socket\Events\MessageReceived',
+            'Codemash\Socket\Events\MesstageReceived',
             'App\Listeners\MessageEventListener@onMessageReceived'
         );
 

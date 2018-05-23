@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{ Breadcrumbs::render('message', $conversation->getInterlocutor()) }}
-    {{--<section class="container">--}}
+    {{ Breadcrumbs::render('message', $conversation->getInterlocutor($authUser)) }}
     <div id="messages">
         @section('message')
             @if($conversation->messages->count() == 0)
@@ -10,10 +9,10 @@
             @else
                 <?php
                 $messages = $conversation
-                    ->messages(49336)
+                    ->messages()
                     ->paginate(15, ['*'], 'page', isset($_GET['page']) ? null : ceil($conversation->messages->count() / 15))
                     ->setPath('/messages/' . $conversation->getInterlocutor($authUser)->id .
-                        (isset($_GET['page_conversation']) ? '?page_conversation=' . $_GET['page_conversation'] : '')
+                            (isset($_GET['page_conversation']) ? '?page_conversation=' . $_GET['page_conversation'] : '')
                     );
                 echo $messages->links()
                 ?>
@@ -62,15 +61,15 @@
             @endif
         @show
     </div>
-    {{--<h3 class="msg-
-    date">Today - 19:44</h3>--}}
-    <form method="POST" class="form-horizontal">
+    <form method="POST" class="form-horizontal" class="js-message-form">
         <textarea class="messages-input" name="message" id="message" placeholder="Написать"></textarea>
         {{csrf_field()}}
         <input type="hidden" value="{{ $conversation->id }}" name="conversation_id" id="conversation_id"/>
-            <button class="btn btn-success pull-right" id="send-message">Отправить</button>
+        <input type="user_id" value="{{ \Illuminate\Support\Facades\Auth::user()->id }}" id="user_id" />
+        <button class="btn btn-success pull-right js-send-message">Отправить</button>
     </form>
-    &nbsp;<br/>
+    &nbsp;
+    <br/>
+    &nbsp;
     <div class="clearfix"></div>
-    {{--</section>--}}
 @endsection

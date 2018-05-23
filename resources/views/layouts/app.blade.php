@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     {{--<title>{{ config('app.name', 'Laravel') }}</title>--}}
+    @if(isset($h1))
     <title>{{ $h1 }}</title>
+    @else
+        <title>pisec.online</title>
+    @endif
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport"
@@ -25,6 +29,9 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    {!! Socket::javascript() !!}
+    <script src="/vendor/socket/socket.js"></script>
+    <script src="/js/socket.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 </head>
@@ -32,6 +39,9 @@
 $route = Route::current()->getName();
 ?>
 <body class="body-index">
+@if(!Auth::guest())
+<input type="hidden" value="{{Auth::user()->id}}" id="user_id" />
+       @endif
 <header>
     <div class="header-container">
         <div class="header-logo">
@@ -63,9 +73,7 @@ $route = Route::current()->getName();
                     <a href="/messages/list">
                         <img src="/images/li4.png" alt="menu_img">
                     </a>
-                    <?php if($messages_count): ?>
-                    <div class="menu-item__messages"><?php echo $messages_count ?></div>
-                    <?php endif; ?>
+                    <div class="menu-item__messages js-message-count"><?php echo $messages_count ?></div>
                 </li>
                 <li class="menu-item"><span
                             class="li_bg li_bg5 <?php if ($route == 'profile') echo 'selected' ?>"></span>
