@@ -20,7 +20,7 @@
             @endif
             {{--height="{{$height}}px"--}}
             {{--width="{{$height}}px"--}}
-            style="height: {{$height}} px;"
+            style="height: {{$height}}px;"
             src="{{ $user->getAvatar()->cdn_key }}"
             alt="{{ $user->getAvatar()->name }}">
 @else
